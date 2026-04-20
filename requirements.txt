@@ -1,7 +1,7 @@
 flask==3.0.3
 flask-sqlalchemy==3.1.1
 flask-socketio==5.3.6
-eventlet==0.35.1
+eventlet==0.41.0
 requests==2.32.3
 numpy>=1.26.0
 python-dotenv==1.0.1
