@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETPULSE — Network Flows</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-brand">NETPULSE</div>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/flows" class="active">Flows</a>
+        <a href="/alerts">Alerts <span id="alert-badge" class="badge">0</span></a>
+    </div>
+</nav>
+
+<main class="container">
+    <h1 class="page-title">Network Flows</h1>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Flow Records <span class="count">({{ flows | length }})</span></h2>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source IP</th>
+                        <th>Src Port</th>
+                        <th>Destination IP</th>
+                        <th>Dst Port</th>
+                        <th>Protocol</th>
+                        <th>Bytes Sent</th>
+                        <th>Bytes Recv</th>
+                        <th>Packets</th>
+                        <th>Risk Score</th>
+                        <th>Threat</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flow in flows %}
+                    <tr class="{{ 'row-threat' if flow.threat_match else '' }}">
+                        <td>{{ flow.src_ip }}</td>
+                        <td>{{ flow.src_port or '—' }}</td>
+                        <td>{{ flow.dst_ip }}</td>
+                        <td>{{ flow.dst_port or '—' }}</td>
+                        <td>{{ flow.protocol }}</td>
+                        <td>{{ (flow.bytes_sent / 1024) | round(1) }} KB</td>
+                        <td>{{ (flow.bytes_recv / 1024) | round(1) }} KB</td>
+                        <td>{{ flow.packets }}</td>
+                        <td>
+                            <span class="risk-score {{ 'risk-high' if flow.risk_score >= 0.7 else ('risk-med' if flow.risk_score >= 0.4 else 'risk-low') }}">
+                                {{ (flow.risk_score * 100) | round(0) | int }}%
+                            </span>
+                        </td>
+                        <td>{{ 'Yes' if flow.threat_match else 'No' }}</td>
+                        <td>{{ flow.flow_start.strftime('%H:%M:%S') if flow.flow_start else '—' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="11" class="empty">No flows recorded</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script src="/static/js/app.js"></script>
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</body>
+</html>

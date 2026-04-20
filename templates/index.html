@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETPULSE — Network Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-brand">NETPULSE</div>
+    <div class="nav-links">
+        <a href="/" class="active">Dashboard</a>
+        <a href="/flows">Flows</a>
+        <a href="/alerts">Alerts <span id="alert-badge" class="badge">0</span></a>
+    </div>
+</nav>
+
+<main class="container">
+    <h1 class="page-title">Network Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_flows }}</div>
+            <div class="stat-label">Total Flows</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ open_alerts }}</div>
+            <div class="stat-label">Open Alerts</div>
+        </div>
+        <div class="stat-card alert">
+            <div class="stat-value">{{ critical_alerts }}</div>
+            <div class="stat-label">Critical Alerts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ known_hosts }}</div>
+            <div class="stat-label">Known Hosts</div>
+        </div>
+    </div>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Recent Alerts</h2>
+            <a href="/alerts" class="btn btn-sm">View All</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Severity</th>
+                        <th>Title</th>
+                        <th>Source IP</th>
+                        <th>Destination IP</th>
+                        <th>MITRE Tactic</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in recent_alerts %}
+                    <tr>
+                        <td><span class="badge sev-{{ alert.severity | lower }}">{{ alert.severity }}</span></td>
+                        <td>{{ alert.title }}</td>
+                        <td>{{ alert.src_ip or '—' }}</td>
+                        <td>{{ alert.dst_ip or '—' }}</td>
+                        <td>{{ alert.mitre_tactic or '—' }}</td>
+                        <td>{{ alert.created_at.strftime('%Y-%m-%d %H:%M') if alert.created_at else '—' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="empty">No alerts detected</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script src="/static/js/app.js"></script>
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</body>
+</html>
