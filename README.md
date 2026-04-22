@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=28&duration=3000&pause=1000&color=64FFDA&center=true&vCenter=true&width=750&lines=NETPULSE;Network+Security+Monitoring+Platform;Port+Scan+%7C+Beaconing+%7C+Exfiltration;Passive+Flow+Analysis+%7C+Threat+Intel" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&amp;weight=700&amp;size=28&amp;duration=3000&amp;pause=1000&amp;color=64FFDA&amp;center=true&amp;vCenter=true&amp;width=750&amp;lines=NETPULSE;Network+Security+Monitoring+Platform;Port+Scan+%7C+Beaconing+%7C+Exfiltration;Passive+Flow+Analysis+%7C+Threat+Intel" alt="Typing SVG" />
 
 <br/>
 
